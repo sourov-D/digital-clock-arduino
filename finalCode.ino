@@ -9,6 +9,7 @@
  * Changes      : 0.1v beta ( read from rtc and show it to the serial monitor)
  *                0.2v beta ( output the value from rtc to 7 seg display)
  *                0.3v beta ( change the time with input buttons)
+ *                1.0v stable ( a clock with an alarm)
  * ===============================================================================
  */
 
@@ -60,8 +61,8 @@ void setup(){
 
 
 void loop(){
-  RTC.read(clockTime);                                                      /* reads time from RTC */
-  displayOut(clockTime.Hour, clockTime.Minute);                             /* displays the time */
+  RTC.read(clockTime);
+  displayOut(clockTime.Hour, clockTime.Minute);
 
   if((clockTime.Hour == hourAlarm) && (clockTime.Minute == minuteAlarm)){
     if(alarmTurnOff == false){
@@ -71,11 +72,11 @@ void loop(){
       if(digitalRead(minuteButton) == LOW){
         alarmState = false;
         alarmTurnOff = true;
-        tone(buzzer, 1000);
-        delay(100);
-        noTone(buzzer);
-        delay(100);
       }
+      tone(buzzer, 1000);
+      delay(100);
+      noTone(buzzer);
+      delay(100);
     } 
   }
   
@@ -92,7 +93,8 @@ void loop(){
     changeTime();
   }
 
-  if((digitalRead(hourButton) == LOW) && (digitalRead(minuteButton) == LOW)){
+  if((digitalRead(hourButton) == LOW) && (digitalRead(setAll) == LOW)){
+    delay(200);
     while(1){
       RTC.read(clockTime);
       displayOutSec(clockTime.Minute, clockTime.Second);
@@ -100,9 +102,21 @@ void loop(){
         break;
       }
       //Serial.println(clockTime.Second);
-      delay(120);
+      delay(50);
     }
-  } 
+  }
+
+  if((digitalRead(setAll) == LOW) && (digitalRead(minuteButton) == LOW)){
+    delay(200);
+    while(1){
+      RTC.read(clockTime);
+      displayOut(clockTime.Month, clockTime.Day);
+      if(digitalRead(setAll) == LOW){
+        break;
+      }
+      delay(50);
+    }
+  }
 }
 
 /*
@@ -228,10 +242,6 @@ void setAlarm(){
   }
   // sets the value to false to be activated again
   alarmTurnOff = false;
-  Serial.println(alarmTurnOff);
-  Serial.print(hourAlarm);
-  Serial.print(minuteAlarm);
-  Serial.print("");
   blinkDis();
   displayOut(1,1);
   delay(300);
