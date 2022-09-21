@@ -54,7 +54,6 @@ void setup(){
   pinMode(setAll, INPUT_PULLUP);
   pinMode(alarm, INPUT_PULLUP);
   pinMode(buzzer, OUTPUT);
-  Serial.begin(9600);
   outDisplay.set();
   outDisplay.init();
 }
@@ -81,9 +80,7 @@ void loop(){
   }
   
   if(digitalRead(alarm) == LOW){
-      Serial.println("setting alarm");
       setAlarm();
-      Serial.println("alarm set");
   }
   
   if(digitalRead(change) == LOW){
@@ -101,7 +98,6 @@ void loop(){
       if(digitalRead(setAll) == LOW){
         break;
       }
-      //Serial.println(clockTime.Second);
       delay(50);
     }
   }
