@@ -25,7 +25,7 @@
  */
 int hourValue = 0;      /* to hold the hour value while changing the time */
 int minuteValue = 0;    // to hold the minute value while changing the time
-int hourAlarm = 0;      // holds the alarm hour value
+int hourAlarm = 24;      // holds the alarm hour value
 int minuteAlarm = 0;    // holds the alarm minute value
 
 /*
@@ -71,12 +71,20 @@ void loop(){
       if(digitalRead(minuteButton) == LOW){
         alarmState = false;
         alarmTurnOff = true;
+        /* resets alarm values for next use */
+        hourAlarm = 24;
+        break;
       }
+      RTC.read(clockTime);
       tone(buzzer, 1000);
       delay(100);
       noTone(buzzer);
       delay(100);
-    } 
+      if(clockTime.Minute == (minuteAlarm+1)){
+        hourAlarm = 24;
+      }
+    }
+    
   }
   
   if(digitalRead(alarm) == LOW){
