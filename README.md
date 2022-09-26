@@ -13,3 +13,4 @@
 - two - Hour change ( increments by 2 ) only works in change mode.
 - change - Time change button.
 - setAll - Set all changes in both alarm and time.
+- alarm - 
