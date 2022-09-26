@@ -9,5 +9,7 @@
 - One buzzer
 
 # Button functions
-- one - Minute
-- two - Hour
+- one - Minute change ( increments by 1 ) only works in change mode.
+- two - Hour change ( increments by 2 ) only works in change mode.
+- change - Time change button.
+- setAll - Set all changes in both alarm and time.
