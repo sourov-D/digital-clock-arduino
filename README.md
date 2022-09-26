@@ -8,3 +8,6 @@
 - Push button
 - One buzzer
 
+# Button functions
+- one - Minute
+- two - Hour
